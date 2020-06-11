@@ -1,7 +1,14 @@
 <script>
-	export let name;
+  export let name;
+  export let url = '';
 	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar';
   import IconButton from '@smui/icon-button';
+  import { Router, Link, Route } from 'svelte-routing';
+  import Home from './views/Home.svelte';
+  import Login from './views/Login.svelte';
+  import Register from './views/Register.svelte';
+  import Movie from './views/Movie.svelte';
+  import Profile from './views/Profile.svelte';
 </script>
 
 <main>
@@ -20,9 +27,22 @@
         </Row>
       </TopAppBar>
     </div>
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 </main>
+
+<Router url="{url}">
+  <nav>
+    <Link to="/">Home</Link>
+    <Link to="/login">Login</Link>
+    <Link to="/register">Register</Link>
+  </nav>
+  <div>
+    <Route path="/" component="{Home}" />
+    <Route path="/login" component="{Login}" />
+    <Route path="/register" component="{Register}" />
+    <Route path="movie/:id" component="{Movie}" />
+    <Route path="profile/:id" component="{Profile}" />
+  </div>
+</Router>
 
 <style>
 </style>
