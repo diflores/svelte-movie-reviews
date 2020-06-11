@@ -5,6 +5,7 @@ import livereload from "rollup-plugin-livereload";
 import { terser } from "rollup-plugin-terser";
 import {config} from 'dotenv';
 import replace from '@rollup/plugin-replace';
+import postcss from 'rollup-plugin-postcss';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -25,6 +26,18 @@ export default {
       css: css => {
         css.write("public/build/bundle.css");
       }
+		}),
+		postcss({
+      extract: true,
+      minimize: true,
+      use: [
+        ['sass', {
+          includePaths: [
+            './theme',
+            './node_modules'
+          ]
+        }]
+      ]
     }),
 
     // If you have external dependencies installed from
