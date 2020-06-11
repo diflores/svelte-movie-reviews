@@ -7,15 +7,15 @@
 <main>
 	<div class="flexy">
     <div class="top-app-bar-container">
-      <TopAppBar variant="static" color="#9c6cd3">
+      <TopAppBar variant="static">
         <Row>
           <Section>
-            <IconButton class="material-icons">menu</IconButton>
+            <IconButton class="material-icons">movie</IconButton>
             <Title>Movie Reviews</Title>
           </Section>
           <Section align="end" toolbar>
-            <IconButton class="material-icons" aria-label="Download">file_download</IconButton>
-            <IconButton class="material-icons" aria-label="Print this page">print</IconButton>
+            <IconButton class="material-icons" aria-label="Download">person</IconButton>
+            <IconButton class="material-icons" aria-label="Print this page">exit_to_app</IconButton>
           </Section>
         </Row>
       </TopAppBar>
