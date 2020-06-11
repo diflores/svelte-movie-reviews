@@ -11,7 +11,7 @@
         <Row>
           <Section>
             <IconButton class="material-icons">menu</IconButton>
-            <Title>Static</Title>
+            <Title>Movie Reviews</Title>
           </Section>
           <Section align="end" toolbar>
             <IconButton class="material-icons" aria-label="Download">file_download</IconButton>
@@ -25,24 +25,4 @@
 </main>
 
 <style>
-@import url("https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700&display=swap");
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
 </style>

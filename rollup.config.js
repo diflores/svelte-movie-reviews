@@ -28,6 +28,7 @@ export default {
       }
 		}),
 		postcss({
+			extensions: ['.scss', '.sass'],
       extract: true,
       minimize: true,
       use: [
