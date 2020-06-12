@@ -23,12 +23,14 @@ export default {
       dev: !production,
       // we'll extract any component CSS out into
       // a separate file - better for performance
+      /*
+      NOTA JAVI: comenté esta línea porque por alguna razón hace que no se me muestre ningún estilo...
       css: css => {
         css.write("public/build/bundle.css");
       }
+      */
 		}),
 		postcss({
-			extensions: ['.scss', '.sass'],
       extract: true,
       minimize: true,
       use: [
