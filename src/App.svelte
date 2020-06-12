@@ -1,14 +1,20 @@
 <script>
-  export let name;
+  export let isLoggedIn;
   export let url = '';
 	import TopAppBar, { Row, Section, Title } from '@smui/top-app-bar';
   import IconButton from '@smui/icon-button';
-  import { Router, Link, Route } from 'svelte-routing';
+  import Button, { Label } from '@smui/button';
+  import { Router, Link, Route, navigate } from 'svelte-routing';
   import Home from './views/Home.svelte';
   import Login from './views/Login.svelte';
   import Register from './views/Register.svelte';
   import Movie from './views/Movie.svelte';
   import Profile from './views/Profile.svelte';
+
+  const redirectHome = () => navigate('/');
+  const redirectProfile = (loggedUserId) => navigate(`/user/${loggedUserId}`);
+  const redirectRegister = () => navigate('/register');
+  const redirectLogin = () => navigate('/login');
 </script>
 
 <main>
@@ -17,12 +23,25 @@
       <TopAppBar variant="static">
         <Row>
           <Section>
-            <IconButton class="material-icons">movie</IconButton>
+            <IconButton class="material-icons" on:click={redirectHome}>movie</IconButton>
             <Title>Movie Reviews</Title>
           </Section>
           <Section align="end" toolbar>
-            <IconButton class="material-icons" aria-label="Download">person</IconButton>
-            <IconButton class="material-icons" aria-label="Print this page">exit_to_app</IconButton>
+            {#if isLoggedIn}
+              <IconButton class="material-icons" aria-label="Download">
+                person
+              </IconButton>
+              <IconButton class="material-icons" aria-label="Print this page">
+                exit_to_app
+              </IconButton>
+            {:else}
+              <Button variant="unelevated" on:click={redirectRegister}>
+                <Label>Register</Label>
+              </Button>
+              <Button variant="unelevated" on:click={redirectLogin}>
+                <Label>Login</Label>
+              </Button>
+            {/if}
           </Section>
         </Row>
       </TopAppBar>
@@ -30,17 +49,12 @@
 </main>
 
 <Router url="{url}">
-  <nav>
-    <Link to="/">Home</Link>
-    <Link to="/login">Login</Link>
-    <Link to="/register">Register</Link>
-  </nav>
   <div>
     <Route path="/" component="{Home}" />
     <Route path="/login" component="{Login}" />
     <Route path="/register" component="{Register}" />
     <Route path="movie/:id" component="{Movie}" />
-    <Route path="profile/:id" component="{Profile}" />
+    <Route path="user/:id" component="{Profile}" />
   </div>
 </Router>
 
