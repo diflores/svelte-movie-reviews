@@ -1,8 +1,11 @@
 <script>
+  export let isLoggedIn;
 </script>
 
 <div>
-  <h1>Searchbar</h1>
+  {#if isLoggedIn}
+    <h1>Searchbar</h1>
+  {/if}
 </div>
 
 <style>
