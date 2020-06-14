@@ -1,5 +1,5 @@
 <script>
-  import { userIdStored, tokenStored } from "./auth.js";
+  import { userIdStored, tokenStored, logout } from "./store.js";
   let isLoggedIn;
   let userId;
   const unsubscribeToken = tokenStored.subscribe(value => {
@@ -23,6 +23,9 @@
   const redirectProfile = loggedUserId => navigate(`/user/${loggedUserId}`);
   const redirectRegister = () => navigate("/register");
   const redirectLogin = () => navigate("/login");
+  const handleLogout = () => {
+    logout().then(redirectLogin);
+  };
 </script>
 
 <style>
@@ -45,7 +48,7 @@
               <IconButton class="material-icons" aria-label="Download">
                 person
               </IconButton>
-              <IconButton class="material-icons" aria-label="Print this page">
+              <IconButton class="material-icons" aria-label="Print this page" on:click={handleLogout}>
                 exit_to_app
               </IconButton>
             {:else}
