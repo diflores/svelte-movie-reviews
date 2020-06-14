@@ -131,42 +131,47 @@
         </div>
       </div>
       {#if !results.length}
+        <h1 id="results-title">Today's featured movies</h1>
+        {#if most_popular_movies.length}
+          <h1 id="discover-title">Most popular movies</h1>
+        {/if}
         <div class="movies-container">
-          <h1 id="results-title">Today's featured movies</h1>
-          {#if most_popular_movies.length}
-            <h1 id="discover-title">Most popular movies</h1>
-            {#each most_popular_movies as result, i (result.id)}
-              <Card style="width: 320px;">
-                <Media class="card-media-16x9" aspectRatio="16x9">
-                  <ImageAspectContainer>
-                    <Image src={result.posterURL} alt={result.title} />
-                  </ImageAspectContainer>
-                  <h2 class="mdc-typography--headline6" style="margin: 0;">
-                    {result.title}
-                  </h2>
-                </Media>
-                <Content style="color: #888;">{result.plot}</Content>
-              </Card>
-            {/each}
-          {/if}
-          {#if most_popular_kids_movies.length}
-            <h1 id="discover-title">Most popular kids movies</h1>
-            {#each most_popular_kids_movies as result, i (result.id)}
-              <Card style="width: 320px;">
-                <Media class="card-media-16x9" aspectRatio="16x9">
-                  <ImageAspectContainer>
-                    <Image src={result.posterURL} alt={result.title} />
-                  </ImageAspectContainer>
-                  <h2 class="mdc-typography--headline6" style="margin: 0;">
-                    {result.title}
-                  </h2>
-                </Media>
-                <Content style="color: #888;">{result.plot}</Content>
-              </Card>
-            {/each}
-          {/if}
+          {#each most_popular_movies as result, i (result.id)}
+            <Card style="width: 320px;">
+              <Media class="card-media-16x9" aspectRatio="16x9">
+                <ImageAspectContainer>
+                  <Image src={result.posterURL} alt={result.title} />
+                </ImageAspectContainer>
+                <h2 class="mdc-typography--headline6" style="margin: 0;">
+                  {result.title}
+                </h2>
+              </Media>
+              <Content style="color: #888;">{result.plot}</Content>
+            </Card>
+          {/each}
+        </div>
+        {#if most_popular_kids_movies.length}
+          <h1 id="discover-title">Most popular kids movies</h1>
+        {/if}
+        <div class="movies-container">
+          {#each most_popular_kids_movies as result, i (result.id)}
+            <Card style="width: 320px;">
+              <Media class="card-media-16x9" aspectRatio="16x9">
+                <ImageAspectContainer>
+                  <Image src={result.posterURL} alt={result.title} />
+                </ImageAspectContainer>
+                <h2 class="mdc-typography--headline6" style="margin: 0;">
+                  {result.title}
+                </h2>
+              </Media>
+              <Content style="color: #888;">{result.plot}</Content>
+            </Card>
+          {/each}
+          </div>
           {#if best_movies_2019.length}
             <h1 id="discover-title">Best movies from 2019</h1>
+          {/if}
+          <div class="movies-container">
             {#each best_movies_2019 as result, i (result.id)}
               <Card style="width: 320px;">
                 <Media class="card-media-16x9" aspectRatio="16x9">
@@ -180,8 +185,7 @@
                 <Content style="color: #888;">{result.plot}</Content>
               </Card>
             {/each}
-          {/if}
-        </div>
+          </div>
       {:else}
         <div class="movies-container">
           {#each results as result, i (result.id)}
@@ -212,6 +216,7 @@
 #search-container {
   display: flex;
   flex-direction: row;
+  margin-bottom: 2em;
 }
 #search-bar {
   width: 22em;
@@ -224,9 +229,11 @@
   font-weight: 400;
   color: var(--secondary-color);
   padding-top: 2em;
+  margin: 0;
 }
 #results-title {
   font-weight: 300;
+  margin: 0;
 }
 .movies-container {
   margin: 2em 0 2em;
