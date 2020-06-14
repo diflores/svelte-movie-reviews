@@ -3,7 +3,7 @@
   import { tokenStored } from "../store.js";
   import axios from "axios";
   import Textfield from "@smui/textfield";
-  import IconButton from "@smui/icon-button";
+  import Icon from '@smui/textfield/icon/index';
   import { ImageAspectContainer, Image } from "@smui/image-list";
   import Card, { Content, Media, MediaContent } from "@smui/card";
   import { parseResults } from "../utils";
@@ -91,33 +91,43 @@
   });
 </script>
 
-<style>
-
-</style>
-
 <div>
   {#if isLoggedIn}
-    <section>
+    <section id="search-section">
       <div id="search-container">
         <div id="search-bar">
           <Textfield
             variant="outlined"
             withTrailingIcon
             bind:value={movie}
-            label="Search a movie">
-            <IconButton
+            input$placeholder="Search a movie"
+            style="width: 100%"
+          >
+            <Icon
+              role="button"
               class="material-icons"
-              id="search-movie"
-              on:click={search}>
+              on:click={search}
+            >
               search
-            </IconButton>
+            </Icon>
           </Textfield>
         </div>
         <div id="genres-bar">
           <Textfield
+            withLeadingIcon
             bind:value={genresToSearch}
-            label="Search a genre"
-            on:click={searchGenres} />
+            input$placeholder="Search a genre"
+            on:click={searchGenres}
+            style="width: 100%"
+          >
+            <Icon
+              role="button"
+              class="material-icons"
+              on:click={() => null}
+            >
+              search
+            </Icon>
+          </Textfield>
         </div>
       </div>
       {#if !results.length}
@@ -192,3 +202,39 @@
     </section>
   {/if}
 </div>
+
+<style>
+#search-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+#search-container {
+  display: flex;
+  flex-direction: row;
+}
+#search-bar {
+  width: 22em;
+  margin-right: 4em;
+}
+#genres-bar {
+  width: 20em;
+}
+#discover-title {
+  font-weight: 400;
+  color: var(--secondary-color);
+  padding-top: 2em;
+}
+#results-title {
+  font-weight: 300;
+}
+.movies-container {
+  margin: 2em 0 2em;
+  display: grid;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(18em, 1fr));
+  grid-gap: 2em;
+  width: 100%;
+  height: 100%;
+}
+</style>
