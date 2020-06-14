@@ -45,11 +45,11 @@
         type={showPassword ? 'text' : 'password'}
         style="margin-bottom: 2em"
       >
-          <Icon
-            role="button"
-            class="material-icons"
-            on:click={() => { showPassword = !showPassword; }} 
-          >{showPassword ? 'visibility' : 'visibility_off'}</Icon>
+        <Icon
+          role="button"
+          class="material-icons"
+          on:click={() => { showPassword = !showPassword; }} 
+        >{showPassword ? 'visibility' : 'visibility_off'}</Icon>
       </Textfield>
       <Button
         variant="unelevated"
