@@ -1,6 +1,9 @@
 <script>
   import { userIdStored, tokenStored } from "./auth.js";
-  export let isLoggedIn = !!tokenStored;
+  let isLoggedIn;
+  const unsubscribe = tokenStored.subscribe(value => {
+		isLoggedIn = !!value;
+	});
   export let url = "";
   import TopAppBar, { Row, Section, Title } from "@smui/top-app-bar";
   import IconButton from "@smui/icon-button";
@@ -58,7 +61,9 @@
 
 <Router {url}>
   <div>
-    <Route path="/" component={Home} />
+    <Route path="/">
+      <Home {isLoggedIn} />
+    </Route>
     <Route path="/login" component={Login} />
     <Route path="/register" component={Register} />
     <Route path="movie/:id" component={Movie} />

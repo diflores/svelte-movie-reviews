@@ -16,7 +16,7 @@
         </div>
       </div>
     {/if}
-    <SearchBar />
+    <SearchBar {isLoggedIn} />
   </div>
 </main>
 
