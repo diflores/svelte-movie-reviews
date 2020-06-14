@@ -8,7 +8,7 @@
   function handleSubmit() {
     const user = {
       username: email,
-      password
+      password,
     };
     axios({
       url: `${process.env.SVELTE_APP_API_BASE_URL}/users/login/jwt`,

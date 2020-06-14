@@ -1,9 +1,13 @@
 <script>
   import { userIdStored, tokenStored } from "./auth.js";
   let isLoggedIn;
-  const unsubscribe = tokenStored.subscribe(value => {
+  let userId;
+  const unsubscribeToken = tokenStored.subscribe(value => {
 		isLoggedIn = !!value;
-	});
+  });
+  const unsubscribeUserId = userIdStored.subscribe(value => {
+		userId = value;
+  });
   export let url = "";
   import TopAppBar, { Row, Section, Title } from "@smui/top-app-bar";
   import IconButton from "@smui/icon-button";
