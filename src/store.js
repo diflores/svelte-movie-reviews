@@ -48,8 +48,24 @@ export function login(user) {
 export function register(user) {
   return new Promise((resolve, reject) => {
     axios({
-      url: `${process.env.VUE_APP_API_BASE_URL}/users/register`,
+      url: `${process.env.SVELTE_APP_API_BASE_URL}/users/register`,
       data: user,
+      method: "POST"
+    })
+      .then(resp => {
+        resolve(resp);
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
+
+export function create_review(review) {
+  return new Promise((resolve, reject) => {
+    axios({
+      url: `${process.env.SVELTE_APP_API_BASE_URL}/reviews`,
+      data: review,
       method: "POST"
     })
       .then(resp => {
