@@ -3,12 +3,13 @@
   import Textfield from '@smui/textfield';
   import Icon from '@smui/textfield/icon/index';
   import Button, { Label } from "@smui/button";
-  import axios from "axios";
-  import qs from "qs";
   import { navigate } from "svelte-routing";
+
   let password = "";
   let email = "";
   let isLoading = false;
+  let showPassword = false;
+
   function handleSubmit() {
     isLoading = true;
     const user = {
@@ -41,10 +42,14 @@
         withTrailingIcon
         bind:value={password}
         label="Password"
-        type="password"
+        type={showPassword ? 'text' : 'password'}
         style="margin-bottom: 2em"
       >
-          <Icon class="material-icons">visibility_off</Icon>
+          <Icon
+            role="button"
+            class="material-icons"
+            on:click={() => { showPassword = !showPassword; }} 
+          >{showPassword ? 'visibility' : 'visibility_off'}</Icon>
       </Textfield>
       <Button
         variant="unelevated"
