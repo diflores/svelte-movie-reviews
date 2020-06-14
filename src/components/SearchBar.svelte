@@ -4,8 +4,7 @@
   import axios from "axios";
   import Textfield from "@smui/textfield";
   import Icon from '@smui/textfield/icon/index';
-  import { ImageAspectContainer, Image } from "@smui/image-list";
-  import Card, { Content, Media, MediaContent } from "@smui/card";
+  import Card from './Card.svelte';
   import { parseResults } from "../utils";
   export let isLoggedIn;
   export let movie = "";
@@ -67,6 +66,7 @@
       }).then(response => {
         most_popular_kids_movies = parseResults(response);
       });
+
       axios({
         url: `${process.env.SVELTE_APP_API_BASE_URL}/discover-movie`,
         params: {
@@ -78,6 +78,7 @@
       }).then(response => {
         best_movies_2019 = parseResults(response);
       });
+
       axios({
         url: `${process.env.SVELTE_APP_API_BASE_URL}/genres`,
         method: "GET"
@@ -137,17 +138,12 @@
         {/if}
         <div class="movies-container">
           {#each most_popular_movies as result, i (result.id)}
-            <Card style="width: 320px;">
-              <Media class="card-media-16x9" aspectRatio="16x9">
-                <ImageAspectContainer>
-                  <Image src={result.posterURL} alt={result.title} />
-                </ImageAspectContainer>
-                <h2 class="mdc-typography--headline6" style="margin: 0;">
-                  {result.title}
-                </h2>
-              </Media>
-              <Content style="color: #888;">{result.plot}</Content>
-            </Card>
+            <Card
+              cardTitle={result.title}
+              cardSubtitle={result.plot}
+              cardImage={result.posterURL}
+              onClick={() => { console.log(result.id) }}
+            />
           {/each}
         </div>
         {#if most_popular_kids_movies.length}
@@ -155,17 +151,12 @@
         {/if}
         <div class="movies-container">
           {#each most_popular_kids_movies as result, i (result.id)}
-            <Card style="width: 320px;">
-              <Media class="card-media-16x9" aspectRatio="16x9">
-                <ImageAspectContainer>
-                  <Image src={result.posterURL} alt={result.title} />
-                </ImageAspectContainer>
-                <h2 class="mdc-typography--headline6" style="margin: 0;">
-                  {result.title}
-                </h2>
-              </Media>
-              <Content style="color: #888;">{result.plot}</Content>
-            </Card>
+            <Card
+              cardTitle={result.title}
+              cardSubtitle={result.plot}
+              cardImage={result.posterURL}
+              onClick={() => { console.log(result.id) }}
+            />
           {/each}
           </div>
           {#if best_movies_2019.length}
@@ -173,33 +164,23 @@
           {/if}
           <div class="movies-container">
             {#each best_movies_2019 as result, i (result.id)}
-              <Card style="width: 320px;">
-                <Media class="card-media-16x9" aspectRatio="16x9">
-                  <ImageAspectContainer>
-                    <Image src={result.posterURL} alt={result.title} />
-                  </ImageAspectContainer>
-                  <h2 class="mdc-typography--headline6" style="margin: 0;">
-                    {result.title}
-                  </h2>
-                </Media>
-                <Content style="color: #888;">{result.plot}</Content>
-              </Card>
+              <Card
+                cardTitle={result.title}
+                cardSubtitle={result.plot}
+                cardImage={result.posterURL}
+                onClick={() => { console.log(result.id) }}
+              />
             {/each}
           </div>
       {:else}
         <div class="movies-container">
           {#each results as result, i (result.id)}
-            <Card style="width: 320px;">
-              <Media class="card-media-16x9" aspectRatio="16x9">
-                <ImageAspectContainer>
-                  <Image src={result.posterURL} alt={result.title} />
-                </ImageAspectContainer>
-                <h2 class="mdc-typography--headline6" style="margin: 0;">
-                  {result.title}
-                </h2>
-              </Media>
-              <Content style="color: #888;">{result.plot}</Content>
-            </Card>
+            <Card
+              cardTitle={result.title}
+              cardSubtitle={result.plot}
+              cardImage={result.posterURL}
+              onClick={() => { console.log(result.id) }}
+            />
           {/each}
         </div>
       {/if}
