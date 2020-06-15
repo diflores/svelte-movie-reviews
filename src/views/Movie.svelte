@@ -20,12 +20,12 @@
     isLoggedIn = !!value;
   });
 
-  export let review = "";
-  export let score = 5;
-  export let is_loading = true;
-  export let is_loading_submit = false;
-  export let scores = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  export let movie = {
+  let review = "";
+  let score = 5;
+  let is_loading = true;
+  let is_loading_submit = false;
+  let scores = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  let movie = {
     title: "",
     overview: "",
     image: "",
@@ -34,7 +34,7 @@
     vote_average: "",
     parsed_duration: ""
   };
-  export let reviews = [];
+  let reviews = [];
 
   onMount(async () => {
     const posterBaseURL = "http://image.tmdb.org/t/p/w185";
@@ -96,43 +96,43 @@
   };
 </script>
 
-<style>
-#user-name {
-  cursor: pointer;
-}
-</style>
-
 <div>
   {#if isLoggedIn && !is_loading}
     <div id="movie-container">
-      <div>
-        <h1 id="movie-title">{movie.title}</h1>
-        <div id="info-container">
-          <div id="display-in-row">
-            <img src={movie.image} style="height: 300px;" alt={movie.title} />
-            <div>
-              <p>{movie.overview}</p>
-              <p>Duration: {movie.parsed_duration}</p>
-              <p>Date: {movie.release_date}</p>
-              <p>Language: {movie.parsed_original_language}</p>
-              <p id="bolder">Cast: {movie.actors}</p>
-              <p id="bolder">Director: {movie.director}</p>
-              <p id="bolder">Average score: {movie.vote_average}/10</p>
-              <Set chips={movie.genres.map(genre => genre.name)} let:chip>
-                <Chip>
-                  <Text>{chip}</Text>
-                </Chip>
-              </Set>
+      <div id="two-col-grid">
+        <div>
+          <h1 id="movie-title">{movie.title}</h1>
+          <div id="info-container">
+            <div id="display-in-row">
+              <img src={movie.image} style="width: 200px;" alt={movie.title} />
+              <div>
+                <p style="margin: 0;">{movie.overview}</p>
+                <p style="margin: 0;">Duration: {movie.parsed_duration}</p>
+                <p style="margin: 0;">Date: {movie.release_date}</p>
+                <p style="margin: 0;">Language: {movie.parsed_original_language}</p>
+                <p style="margin: 0;" id="bolder">Cast: {movie.actors}</p>
+                <p style="margin: 0;" id="bolder">Director: {movie.director}</p>
+                <p style="margin: 0;" id="bolder">Average score: {movie.vote_average}/10</p>
+                <Set chips={movie.genres.map(genre => genre.name)} let:chip  style="padding: 4px 0;">
+                  <Chip>
+                    <Text>{chip}</Text>
+                  </Chip>
+                </Set>
+              </div>
             </div>
           </div>
         </div>
         <div id="review-container">
           <h1 id="add-review-title">Add your review</h1>
-          <Textfield textarea bind:value={review} label="Review" />
+          <Textfield
+            textarea
+            bind:value={review}
+            label="Review"
+            style="width: 100%; height: 150px; margin-bottom: 2em;" />
           <div>
             <div id="display-in-row">
               <h3 id="score-title">Score:</h3>
-              <Select bind:value={score} label="Rating">
+              <Select enhanced bind:value={score}>
                 {#each scores as selectedScore}
                   <Option
                     value={selectedScore}
@@ -154,22 +154,92 @@
       {#if reviews.length}
         <div>
           <h1 id="reviews-title">Showing {reviews.length} review(s)</h1>
-          {#each reviews as movie_review, i (movie_review.id)}
-            <div>
-              <div id="display-in-row">
-                <p
-                  id="user-name"
-                  on:click={redirect_profile(movie_review.user.id)}>
-                  {`${movie_review.user.first_name} ${movie_review.user.last_name}`}
-                </p>
-                <p id="review-date">{movie_review.created_at.slice(0, 10)}</p>
+          <div id="two-col-grid">
+            {#each reviews as movie_review, i (movie_review.id)}
+              <div style="padding: 12px 0;">
+                <div id="display-in-row">
+                  <p
+                    id="user-name"
+                    on:click={redirect_profile(movie_review.user.id)}>
+                    {`${movie_review.user.first_name} ${movie_review.user.last_name}`}
+                  </p>
+                  <p id="review-date">{movie_review.created_at.slice(0, 10)}</p>
+                </div>
+                <p style="margin: 0;">{movie_review.review}</p>
+                <p style="margin: 0;" id="bolder">Score: {movie_review.rating}/10</p>
               </div>
-              <p>{movie_review.review}</p>
-              <p id="bolder">Score: {movie_review.rating}/10</p>
-            </div>
-          {/each}
+            {/each}
+          </div>
         </div>
       {/if}
     </div>
   {/if}
 </div>
+
+<style>
+#movie-container {
+  height: 100%;
+  color: var(--grey);
+  padding: 2em;
+}
+#info-container {
+  padding-right: 1em;
+  padding-top: 1em;
+}
+#info-container > div > div {
+  padding-left: 1em;
+}
+#movie-title {
+  font-weight: 300;
+  font-size: 2em;
+  margin: 0;
+}
+#bolder {
+  font-weight: 400;
+}
+#add-review-title {
+  font-weight: 300;
+  font-size: 1.5em;
+  padding-top: 2em;
+  padding-bottom: 1em;
+  margin: 0;
+}
+#review-container {
+  padding-left: 2em;
+}
+#review-container > div {
+  display: flex;
+  justify-content: space-between;
+}
+#reviews-title {
+  font-size: 1.5em;
+  font-weight: 300;
+  padding-top: 2em;
+  padding-bottom: 1em;
+  margin: 0;
+}
+#score-title {
+  font-weight: 300;
+  padding-top: 1em;
+  padding-right: 1em;
+  margin: 0;
+}
+#display-in-row {
+  display: flex;
+}
+#user-name {
+  font-weight: 400;
+  color: var(--secondary-color);
+  margin: 0;
+  margin-right: 2em;
+  cursor: pointer;
+}
+#review-date {
+  color: grey;
+  margin: 0;
+}
+#two-col-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+</style>
