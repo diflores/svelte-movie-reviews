@@ -3,17 +3,40 @@
   import { tokenStored } from "../store.js";
   import axios from "axios";
   import Textfield from "@smui/textfield";
+  import Chip, { Set, Text } from '@smui/chips';
   import Icon from '@smui/textfield/icon/index';
+  import Select, { Option } from '@smui/select';
   import Card from './Card.svelte';
   import { parseResults } from "../utils";
   export let isLoggedIn;
-  export let movie = "";
-  export let genres = [];
-  export let genresToSearch = [];
-  export let results = [];
-  export let best_movies_2019 = [];
-  export let most_popular_movies = [];
-  export let most_popular_kids_movies = [];
+
+  let movie = "";
+  let genreSelected = "";
+  let genres = [];
+  let genresToSearch = [];
+  let genresToDisplay = [];
+  let results = [];
+  let best_movies_2019 = [];
+  let most_popular_movies = [];
+  let most_popular_kids_movies = [];
+
+  const updateGenresSelected = (genre) => {
+    if (genre && !genresToSearch.includes(genre.value)) {
+      genresToSearch.push(genre.value);
+      genresToDisplay.push({ k: genre.value, v: genre.text });
+      genresToDisplay = genresToDisplay;
+    }
+  };
+
+  const deleteGenreToSearch = (chip) => {
+    const index = genresToSearch.indexOf(chip.k);
+    if (index > -1) {
+      genresToSearch.splice(index, 1);
+      genresToDisplay.splice(index, 1);
+      genresToSearch = genresToSearch;
+      genresToDisplay = genresToDisplay;
+    }
+  };
 
   let token;
   const unsubscribeToken = tokenStored.subscribe(value => {
@@ -32,7 +55,9 @@
       results = parseResults(response);
     });
   };
+
   const searchGenres = function() {
+    console.log(genresToSearch);
     axios({
       url: `${process.env.SVELTE_APP_API_BASE_URL}/discover-movie`,
       params: {
@@ -114,21 +139,48 @@
           </Textfield>
         </div>
         <div id="genres-bar">
-          <Textfield
+          <Select
             withLeadingIcon
-            bind:value={genresToSearch}
-            input$placeholder="Search a genre"
-            on:click={searchGenres}
+            enhanced
+            bind:value={genreSelected}
+            label="Search a genre"
             style="width: 100%"
           >
-            <Icon
-              role="button"
-              class="material-icons"
-              on:click={() => null}
-            >
-              search
-            </Icon>
-          </Textfield>
+            <span slot="icon" style="display: flex; align-items: center;">
+              <Icon
+                role="button"
+                class="material-icons"
+                on:click={searchGenres}
+                style="cursor: pointer;"
+              >
+                search
+              </Icon>
+            </span>
+            <Option value=""></Option>
+            {#each genres as genre}
+              <Option
+                value={genre.value}
+                selected={genreSelected === genre.value}
+                on:click={() => updateGenresSelected(genre)}
+              >
+                {genre.text}
+              </Option>
+            {/each}
+          </Select>
+        </div>
+        <div id="chips-container">
+          <Set chips={genresToDisplay} let:chip key={chip => chip.k} input>
+            <Chip>
+              <Text>{chip.v}</Text>
+              <Icon
+                class="material-icons"
+                trailing
+                tabindex="0"
+                on:click={() => deleteGenreToSearch(chip)}
+                style="color: grey;"
+              >cancel</Icon>
+            </Chip>
+          </Set>
         </div>
       </div>
       {#if !results.length}
@@ -205,7 +257,11 @@
   margin-right: 4em;
 }
 #genres-bar {
-  width: 20em;
+  width: 14em;
+}
+#chips-container {
+  display: flex;
+  align-items: center;
 }
 #discover-title {
   font-weight: 400;
