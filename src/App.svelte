@@ -2,6 +2,7 @@
   import { userIdStored, tokenStored, logout } from "./store.js";
   let isLoggedIn;
   let userId;
+  let movieId;
   const unsubscribeToken = tokenStored.subscribe(value => {
 		isLoggedIn = !!value;
   });
@@ -45,10 +46,10 @@
           </Section>
           <Section align="end" toolbar>
             {#if isLoggedIn}
-              <IconButton class="material-icons" aria-label="Download">
+              <IconButton class="material-icons" aria-label="Profile" on:click={redirectProfile(userId)}>
                 person
               </IconButton>
-              <IconButton class="material-icons" aria-label="Print this page" on:click={handleLogout}>
+              <IconButton class="material-icons" aria-label="Logout" on:click={handleLogout}>
                 exit_to_app
               </IconButton>
             {:else}
@@ -73,7 +74,11 @@
     </Route>
     <Route path="/login" component={Login} />
     <Route path="/register" component={Register} />
-    <Route path="movie/:id" component={Movie} />
-    <Route path="user/:id" component={Profile} />
+    <Route path="movie/:id">
+      <Movie {movieId}></Movie>
+    </Route>
+    <Route path="user/:id">
+      <Profile {userId}></Profile>
+    </Route>
   </div>
 </Router>
