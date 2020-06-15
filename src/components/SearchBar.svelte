@@ -173,6 +173,7 @@
             {/each}
           </div>
       {:else}
+        <h1 id="results-title">Movie Search Results</h1>
         <div class="movies-container">
           {#each results as result, i (result.id)}
             <Card
