@@ -7,7 +7,7 @@
   export let cardImage;
 </script>
 
-<Card style="max-width: 350px;">
+<Card style="max-width: 350px; height: 100%;">
   <div id="card-image">
     <Image src={cardImage} alt={cardTitle} style="height: 180px; width: 120px; align-self: center"/>
   </div>
