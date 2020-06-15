@@ -5,7 +5,6 @@
   export let cardTitle;
   export let cardSubtitle;
   export let cardImage;
-  export let onClick;
 </script>
 
 <Card style="max-width: 350px;">
