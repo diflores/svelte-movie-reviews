@@ -2,11 +2,12 @@
   import { userIdStored, tokenStored, logout } from "./store.js";
   let isLoggedIn;
   let userId;
+  let movieId;
   const unsubscribeToken = tokenStored.subscribe(value => {
-		isLoggedIn = !!value;
+    isLoggedIn = !!value;
   });
   const unsubscribeUserId = userIdStored.subscribe(value => {
-		userId = value;
+    userId = value;
   });
   export let url = "";
   import TopAppBar, { Row, Section, Title } from "@smui/top-app-bar";
@@ -45,10 +46,16 @@
           </Section>
           <Section align="end" toolbar>
             {#if isLoggedIn}
-              <IconButton class="material-icons" aria-label="Profile" on:click={redirectProfile(userId)}>
+              <IconButton
+                class="material-icons"
+                aria-label="Profile"
+                on:click={redirectProfile(userId)}>
                 person
               </IconButton>
-              <IconButton class="material-icons" aria-label="Logout" on:click={handleLogout}>
+              <IconButton
+                class="material-icons"
+                aria-label="Logout"
+                on:click={handleLogout}>
                 exit_to_app
               </IconButton>
             {:else}
@@ -73,7 +80,11 @@
     </Route>
     <Route path="/login" component={Login} />
     <Route path="/register" component={Register} />
-    <Route path="movie/:id" component={Movie} />
-    <Route path="user/:id" component={Profile} />
+    <Route path="movie/:id">
+      <Movie />
+    </Route>
+    <Route path="user/:id">
+      <Profile {userId} />
+    </Route>
   </div>
 </Router>
