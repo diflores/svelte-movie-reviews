@@ -45,10 +45,10 @@
           </Section>
           <Section align="end" toolbar>
             {#if isLoggedIn}
-              <IconButton class="material-icons" aria-label="Download">
+              <IconButton class="material-icons" aria-label="Profile" on:click={redirectProfile(userId)}>
                 person
               </IconButton>
-              <IconButton class="material-icons" aria-label="Print this page" on:click={handleLogout}>
+              <IconButton class="material-icons" aria-label="Logout" on:click={handleLogout}>
                 exit_to_app
               </IconButton>
             {:else}
