@@ -42,42 +42,86 @@
   };
 </script>
 
+<div>
+  {#if isLoggedIn && !is_loading}
+    <div id="profile-container">
+      <h1 id="movie-title">{fullName}</h1>
+      {#if !reviews.length}
+        <br />
+        <p style="margin: 0;">No reviews to show</p>
+      {:else}
+        <div>
+          <h2 id="reviews-title">{`Reviews (${reviews.length})`}</h2>
+          <div id="reviews-grid">
+            {#each reviews as movie_review, i (movie_review.id)}
+              <div style="padding: 12px 0;">
+                <div id="display-in-row">
+                  <p
+                    id="user-name"
+                    on:click={redirect_movie(movie_review.movie_id)}
+                  >
+                    {movie_review.movie_name}
+                  </p>
+                  <p id="review-date">{movie_review.created_at.slice(0, 10)}</p>
+                </div>
+                <p style="margin: 0;">{movie_review.review}</p>
+                <p style="margin: 0;" id="bolder">Score: {movie_review.rating}/10</p>
+              </div>
+            {/each}
+          </div>
+        </div>
+      {/if}
+    </div>
+  {/if}
+</div>
+
 <style>
 #profile-container {
   height: 100%;
-  width: 100%;
   color: var(--grey);
   padding: 2em;
 }
 #user-name {
   cursor: pointer;
 }
+#info-container > div > div {
+  padding-left: 1em;
+}
+#movie-title {
+  font-weight: 300;
+  font-size: 2em;
+  margin: 0;
+}
+#bolder {
+  font-weight: 400;
+}
+#review-container > div {
+  display: flex;
+  justify-content: space-between;
+}
+#reviews-title {
+  font-size: 1.5em;
+  font-weight: 300;
+  padding-top: 2em;
+  padding-bottom: 1em;
+  margin: 0;
+}
+#display-in-row {
+  display: flex;
+}
+#user-name {
+  font-weight: 400;
+  color: var(--secondary-color);
+  margin: 0;
+  margin-right: 2em;
+  cursor: pointer;
+}
+#review-date {
+  color: grey;
+  margin: 0;
+}
+#reviews-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+}
 </style>
-
-<div>
-  {#if isLoggedIn && !is_loading}
-    <div id="profile-container" v-if="isLoggedIn && !is_loading">
-      <h1 id="movie-title">{fullName}</h1>
-      {#if !reviews.length}
-        <br />
-        <p>No reviews to show</p>
-      {:else}
-        <div>
-          <h2 id="reviews-title">{`Reviews (${reviews.length})`}</h2>
-          {#each reviews as movie_review, i (movie_review.id)}
-            <div id="display-in-row">
-              <p
-                id="user-name"
-                on:click={redirect_movie(movie_review.movie_id)}>
-                {movie_review.movie_name}
-              </p>
-              <p id="review-date">{movie_review.created_at.slice(0, 10)}</p>
-            </div>
-            <p>{movie_review.review}</p>
-            <p id="bolder">Score: {movie_review.rating}/10</p>
-          {/each}
-        </div>
-      {/if}
-    </div>
-  {/if}
-</div>
